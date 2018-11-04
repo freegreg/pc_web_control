@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<title>RELAY Control</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./w3.css">
+<link rel="stylesheet" href="./slider.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<link rel="icon" type="image/png" href="./images/favicon.png">
+<body>
+
+<!-- Header -->
+<header class="w3-container w3-blue w3-center w3-padding-8">
+<p>
+  
+  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_key.VK_LEFT">Left</button>
+  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_key.VK_RIGHT">Right</button>
+    
+</p>
+<p>
+<button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_charkey.VK_SHIFT_P">Prev Video</button>
+<button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_charkey.VK_SHIFT_N">Next Video</button>
+</p>
+<p>
+  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_charkey.VK_SHIFT_F">Fullscreen</button>
+  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_charkey.VK_SHIFT_C">Subtitles</button>
+</p>
+<p>
+  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_key.VK_SPACE">Space</button>
+</p>
+
+<p>
+  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_key.VK_VOLUME_UP">Volume Up</button>
+  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_key.VK_VOLUME_MUTE">Mute</button>
+  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_key.VK_VOLUME_DOWN">Volume Down</button>
+</p>
+<p>
+  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_key.VK_MEDIA_PREV_TRACK">Prev Track</button>
+  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_key.VK_MEDIA_PLAY_PAUSE">Play/Pause</button>
+  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="id_key.VK_MEDIA_NEXT_TRACK">Next Track</button>
+</p>
+<p>
+	<button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButtonShutdown(this.id)" id="id_shutdown">Shutdown</button>
+	<button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButtonShutdown(this.id)" id="id_reboot">Restart</button>
+</p>
+<div class="slidecontainer">
+  <input type="range" min="1" max="100" value="50" class="slider" id="mySlider">
+  <p>Volume: <span id="sliderValue"></span></p>
+</div>
+</header>
+
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+    <h1 class="w3-margin w3-xlarge"><i>Any sufficiently advanced technology is indistinguishable from magic.</i></h1>
+	<p>Arthur C. Clarke</p>
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity">  
+ <p>Powered by <a href="#" target="_blank">Greg</a></p>
+</footer>
+
+</body>
+<script type="text/javascript" src="./ajax.js"></script>
+</html>
