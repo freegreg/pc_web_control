@@ -38,7 +38,11 @@ vk_keys['VK_MEDIA_PLAY_PAUSE'] =	0xB3	#Play/Pause Media key
 vk_keys['VK_SHIFT'] =				0x10	#SHIFT key
 vk_keys['VK_CONTROL'] =				0x11	#CTRL key
 #digits and numbers = ascii
-
+for ikey in range(0x30, 0x39+1):
+	vk_keys['VK_' + chr(ikey)] = ikey
+	
+for ikey in range(0x41, 0x5A+1):
+	vk_keys['VK_' + chr(ikey)] = ikey
 # C struct definitions
 
 wintypes.ULONG_PTR = wintypes.WPARAM
@@ -135,6 +139,14 @@ def KeyPressWith(ctrl_key, char_key):
 	PressKey(char_key)
 	ReleaseKey(char_key)
 	ReleaseKey(vk_keys[ctrl_key])
+
+def KeysPress(keys):
+	for key in keys:
+		if key in vk_keys:
+			PressKey(vk_keys[key])   # Alt
+	for key in keys:
+		if key in vk_keys:
+			ReleaseKey(vk_keys[key]) # Alt~
 	
 def KeyPress(key):
 	PressKey(vk_keys[key])   # Alt
