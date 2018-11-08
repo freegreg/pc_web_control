@@ -10,9 +10,14 @@ if os.name != "nt":
         return socket.inet_ntoa(fcntl.ioctl(s.fileno(), 0x8915, struct.pack('256s',
                                 ifname[:15]))[20:24])
 
-def get_lan_ip():
-	print(socket.gethostbyname_ex(socket.gethostname())[-1])
+def get_lan_ip(mask):
+	ips = socket.gethostbyname_ex(socket.gethostname())[-1]
 	ip = socket.gethostbyname_ex(socket.gethostname())[-1][0]#socket.gethostbyname(socket.gethostname())
+	for ip_ in ips:
+		if mask in ip_:
+			ip = ip_
+			break
+	
 	if ip.startswith("127.") and os.name != "nt":
 		interfaces = [
 			"eth0",
