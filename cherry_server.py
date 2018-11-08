@@ -61,7 +61,7 @@ if __name__ == '__main__':
 			'tools.encode.encoding': 'utf-8'
 		}
     }
-	local_ip = get_lan_ip()
-	print(get_lan_ip())
+	local_ip = get_lan_ip('192.168.1')
+	print(local_ip)
 	cherrypy.config.update({'server.socket_host': local_ip, 'server.socket_port': 80})
 	cherrypy.quickstart(remoteControlSever(), '/', conf)
