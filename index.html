@@ -1,65 +1,152 @@
 <!DOCTYPE html>
-<html>
-<title>Remote Control</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="./w3.css">
-<link rel="stylesheet" href="./slider.css">
-   <!-- Favicon
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<link rel="icon" type="image/png" href="./images/favicon.png">
-<body>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+				<meta name="description" content="">
+					<meta name="author" content="">
 
-<!-- Header -->
-<header class="w3-container w3-blue w3-center w3-padding-8">
-<p>
-  
-  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_LEFT">Left</button>
-  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_RIGHT">Right</button>
-</p>
-<p>
-<button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_P">Prev Video</button>
-<button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_N">Next Video</button>
-</p>
-<p>
-  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_F">Fullscreen</button>
-  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_C">Subtitles</button>
-</p>
-<p>
-  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_SPACE">Space</button>
-</p>
+						<title>Remote Control</title>
 
-<p>
-  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_VOLUME_UP">Volume Up</button>
-  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_VOLUME_MUTE">Mute</button>
-  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_VOLUME_DOWN">Volume Down</button>
-</p>
-<p>
-  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_MEDIA_PREV_TRACK">Prev Track</button>
-  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_MEDIA_PLAY_PAUSE">Play/Pause</button>
-  <button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButton(this.id)" id="pressKey?button=VK_MEDIA_NEXT_TRACK">Next Track</button>
-</p>
-<p>
-	<button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButtonShutdown(this.id)" id="pcShutdown">Shutdown</button>
-	<button class="w3-btn w3-padding-8 w3-middle w3-margin-top w3-deep-orange" onclick="onClickButtonShutdown(this.id)" id="pcReboot">Restart</button>
-</p>
-</header>
+						<!-- Bootstrap core CSS -->
+						<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-  <div class="demo-mount-nested-editable"></div>
+							<!-- Custom styles for this template -->
+							<link href="css/logo-nav.css" rel="stylesheet">
+								<link href="css/custom.css" rel="stylesheet">
+									<link href="open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+										<!-- Bootstrap core JavaScript -->
+										<script src="vendor/jquery/jquery.min.js">
+										</script>
+										<script src="vendor/bootstrap/js/bootstrap.bundle.min.js">
+										</script>
+										<script src="ajax.js">
+										</script>
+										<script src="treeview/js/bootstrap-treeview.js"></script>
+									</head>
+									<body>
 
- <div id="like_button_container"></div>
+										<!-- Navigation -->
+										<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+											<div class="container">
+												<a class="navbar-brand" href="#">Remote Control	</a>
+												<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+													<span class="navbar-toggler-icon"/>
+												</button>
+												<div class="collapse navbar-collapse" id="navbarResponsive">
+													<ul class="navbar-nav ml-auto">
+														<li class="nav-item active">
+															<a class="nav-link" href="#">Home
+																<span class="sr-only">(current)</span>
+															</a>
+														</li>
+														<li class="nav-item">
+															<a class="nav-link" href="#">About</a>
+														</li>
+														<li class="nav-item">
+															<a class="nav-link" href="#">Services</a>
+														</li>
+														<li class="nav-item">
+															<a class="nav-link" href="#">Contact</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</nav>
+										<!-- Page Content -->
+										<div class="container">
+											<div class="container text-center">
+												<h5>Youtube</h5>
+												<div class="row justify-content-center">
+													<div class="btn-group">
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_LEFT">
+															<span class="oi oi-arrow-left"/>
+														</button>
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_SPACE">
+															<span class="oi oi-media-pause"/>
+														</button>
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_RIGHT">
+															<span class="oi oi-arrow-right"/>
+														</button>
+													</div>
+												</div>
+												<div class="row justify-content-center">
+													<div class="btn-group">
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_P">
+															<span class="oi oi-media-skip-backward"/>
+														</button>
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_N">
+															<span class="oi oi-media-skip-forward"/>
+														</button>
+													</div>
+												</div>
+												<div class="row justify-content-center">
+													<div class="btn-group">
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_F">
+															<span class="oi oi-fullscreen-enter"/>
+														</button>
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_C">CC</button>
+													</div>
+												</div>
+											</div>
+											<div class="container text-center">
+												<h5>Media Keys</h5>
+												<div class="row justify-content-center">
+													<div class="btn-group">
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_VOLUME_UP">
+															<span class="oi oi-volume-high"/>
+														</button>
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_VOLUME_MUTE">
+															<span class="oi oi-volume-off"/>
+														</button>
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_VOLUME_DOWN">
+															<span class="oi oi-volume-low"/>
+														</button>
+													</div>
+												</div>
+												<div class="row justify-content-center">
+													<div class="btn-group">
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_MEDIA_PREV_TRACK">
+															<span class="oi oi-media-step-backward"/>
+														</button>
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_MEDIA_PLAY_PAUSE">
+															<span class="oi oi-play-circle"/>
+														</button>
+														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_MEDIA_NEXT_TRACK">
+															<span class="oi oi-media-step-forward"/>
+														</button>
+													</div>
+												</div>
+												<div class="row">
+													<div class="container text-center">
+														<h5>PC Control</h5>
+														<div class="btn-group">
+															<button class="btn btn-lg btn-dark remote_button" onclick="onClickButtonShutdown(this.id)" id="pcShutdown">
+																<span class="oi oi-power-standby"/>
+															</button>
+															<button class="btn btn-lg btn-dark remote_button" onclick="onClickButtonShutdown(this.id)" id="pcReboot">
+																<span class="oi oi-reload"/>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div id="fileviewer"></div>
+										<!-- /.container -->
 
-<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
-    <h1 class="w3-margin w3-xlarge"><i>Any sufficiently advanced technology is indistinguishable from magic.</i></h1>
-	<p>Arthur C. Clarke</p>
-</div>
+										<div class="container">
+											<blockquote class="blockquote">
+												<p class="mb-0 text-center">
+													<i>Any sufficiently advanced technology is indistinguishable from magic.</i>
+													<p>Arthur C. Clarke</p>
+												</p>
+											</blockquote>
+										</div>
+										<!-- Footer -->
+										<div class="footer text-center">Powered by
+											<a href="_"> Greg</a>
+										</div>
 
-<!-- Footer -->
-<footer class="w3-container w3-padding-64 w3-center w3-opacity">  
- <p>Powered by <a href="#" target="_blank">Greg</a></p>
-</footer>
-
-</body>
-<script type="text/javascript" src="./ajax.js"></script>
-
-</html>
+									</body>
+								</html>
