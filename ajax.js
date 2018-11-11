@@ -20,58 +20,56 @@ function onClickButtonShutdown(clicked_id) {
 	} else {}
 }
 
-var FSView;
-function fileviewer_click(event) {
-	var target = $(event.target);
-	var row_index = target.closest('tr').index();
+class FolderStructureView {
+	constructor(tag) {
+		this.table = $('<table>').addClass('table table-hover');
+		this.tbody = $('<tbody>');
+		this.table.append(this.tbody);
+		$(tag).append(this.table);
 
-	if (FSView.isFolder(row_index) && FSView.isCollapsed(row_index))
-		$.ajax({
-			url: "getPath?path=" + FSView.getFullPath(row_index),
-			success: function (result) {
-				FSView.addContent(row_index, result);
-			}
-		});
+		//$('#fileviewer > table > tbody').append(this.viewCreateRow(i));
+		//$('#fileviewer > table > tbody').click(fileviewer_click);
+	}
+
+	addRowView(index, name, level, isFolder, fullPath, isCollapsed) {
+		var row = $('<tr>');
+		var col = $('<td>').text(name).css("text-indent", (level * 20) + "px");
+		row.append(col);
+
+		col = $('<td>').text(isFolder);
+		row.append(col);
+		col = $('<td>').text(fullPath);
+		row.append(col);
+		col = $('<td>').text(isCollapsed);
+		row.append(col);
+
+		if (index >= this.tbody.find('tr').length)
+			this.tbody.append(row);
+		else
+			this.tbody.find('tr').eq(index - 1).after(row);
+
+	}
+
+	removeRowView(index) {
+		this.tbody.find('tr').eq(index).remove();
+	}
+	removeRowsView(index, length) {
+		for (var j = 0; j < length; j++) {
+			this.tbody.find('tr').eq(index).remove();
+		}
+	}
 }
 
-class FolderStructure {
+class FolderStructureData {
 	//name isFolder level path isCollapsed
 	constructor(root_drives) {
-		var table = $('<table>').addClass('table table-hover');
-		var tbody = $('<tbody>');
-		table.append(tbody);
-		$('#fileviewer').append(table);
-
 		this.folder_structure = [];
 		for (var i = 0; i < root_drives.folders.length; i++) {
 			this.folder_structure.push([root_drives.folders[i], true, 0, '', true])
-			$('#fileviewer > table > tbody').append(this.viewCreateRow(i));
+			//this.addContent(i, root_drives.folders[i]);
 		}
 	}
 
-	fileviewer_insert(index_row, length) {
-		for (var i = index_row; i < index_row + length; i++) {
-			console.log(i);
-			$('#fileviewer > table > tbody > tr').eq(i).after(this.viewCreateRow(i));
-		}
-	}
-
-	viewCreateRow(i) {
-		var row = $('<tr>');
-		var col = $('<td>').text(this.getName(i)).css("text-indent", (this.getLevel(i) * 20) + "px");
-		row.append(col);
-		col = $('<td>').text(this.isFolder(i));
-		row.append(col);
-		col = $('<td>').text(this.getFullPath(i));
-		row.append(col);
-		col = $('<td>').text(this.isCollapsed(i));
-		row.append(col);
-		return row;
-	}
-
-	viewRemoveRow(i) {
-		$('#fileviewer > table > tbody > tr').eq(i).remove();
-	}
 	getLength() {
 		return this.folder_structure.length;
 	}
@@ -88,8 +86,14 @@ class FolderStructure {
 		return this.folder_structure[i][3];
 	}
 	getFullPath(i) {
-		return this.getPath(i) + this.getName(i) + '\\';
+		var fPath;
+		if (this.isFolder(i))
+			fPath = this.getPath(i) + this.getName(i) + '\\';
+		else
+			fPath = this.getPath(i) + this.getName(i);
+		return fPath;
 	}
+
 	isCollapsed(i) {
 		return this.folder_structure[i][4];
 	}
@@ -99,15 +103,65 @@ class FolderStructure {
 		var full_path = this.getFullPath(index_row);
 		var level = this.getLevel(index_row) + 1;
 		for (var j = 0; j < content.folders.length; j++) {
-			this.folder_structure.splice(index_row + j, 0, [content.folders[j], true, level, full_path, true])
+			this.folder_structure.splice(index_row + j + 1, 0, [content.folders[j], true, level, full_path, true])
 		}
 		for (var j = 0; j < content.files.length; j++) {
-			this.folder_structure.splice(index_row + content.folders.length + j, 0, [content.files[j], false, level, full_path, true])
-
+			this.folder_structure.splice(index_row + content.folders.length + j + 1, 0, [content.files[j], false, level, full_path, true])
 		}
-		this.fileviewer_insert(row_index, result.folders.length + result.files.length);
+		//console.log("this.folder_structure: " + this.folder_structure);
+		//this.fileviewer_insert(row_index, result.folders.length + result.files.length);
+	}
+	removeContent(index_row) {
+		this.folder_structure[index_row][4] = true;
+		var levelToRemove = this.getLevel(index_row);
+		var i = 0;
+		while ((++i + index_row < this.getLength()) && (this.getLevel(i + index_row) > levelToRemove));
+		this.folder_structure.splice(index_row + 1, i-1);
+		return i-1;
 	}
 
+}
+
+class FolderStructureController {
+	constructor(FolderStructureData_, FolderStructureView_) {
+		this.Data = FolderStructureData_;
+		this.View = FolderStructureView_;
+		this.View.tbody.on("click", {
+			self: this
+		}, this.ItemClick);
+
+		//create initial root drives in table
+		for (var i = 0; i < this.Data.getLength(); i++) {
+			this.View.addRowView(i, this.Data.getName(i), this.Data.getLevel(i), this.Data.isFolder(i), this.Data.getFullPath(i), this.Data.isCollapsed(i));
+		}
+	}
+
+	ItemClick(e) {
+		var self = e.data.self;
+		var target = $(e.target);
+		var row_index = target.closest('tr').index();
+		console.log("self.Data.getLength(): " + self.Data.getLength());
+		console.log("row_index: " + row_index);
+		console.log("self.Data.getName(row_index): " + self.Data.getName(row_index));
+		if (self.Data.isFolder(row_index) && self.Data.isCollapsed(row_index))
+			$.ajax({
+				url: "getPath?path=" + self.Data.getFullPath(row_index),
+				success: function (result) {
+					console.log("result.folders: " + result.folders);
+					console.log("result.files: " + result.files);
+					self.Data.addContent(row_index, result);
+					for (var i = row_index + 1; i <= (row_index + result.folders.length + result.files.length); i++) {
+						self.View.addRowView(i, self.Data.getName(i), self.Data.getLevel(i), self.Data.isFolder(i), self.Data.getFullPath(i), self.Data.isCollapsed(i));
+					}
+				}
+			});
+		if (self.Data.isFolder(row_index) && !self.Data.isCollapsed(row_index)) {
+			var lengthToDelete = self.Data.removeContent(row_index);
+			console.log("lengthToDelete: " + lengthToDelete);
+			self.View.removeRowsView(row_index + 1, lengthToDelete)
+		}
+
+	}
 }
 
 $.fn.fileViewer = function (FSView) {
@@ -134,9 +188,9 @@ $(document).ready(function () {
 		url: "getPath?path=root",
 		success: function (content) {
 			//alert('Folders: ' + result.folders + ' Files: ' + result.files);
-			FSView = new FolderStructure(content);
-			$('#fileviewer > table > tbody').click(fileviewer_click);
+			FSView = new FolderStructureView('#fileviewer');
+			FSData = new FolderStructureData(content);
+			FSController = new FolderStructureController(FSData, FSView);
 		}
 	});
-
 });
