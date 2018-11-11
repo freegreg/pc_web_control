@@ -42,7 +42,7 @@ class remoteControlSever(object):
 		if path == 'root':
 			folder_structure['folders'].extend(available_drives)
 		else:
-			for (dirpath, dirnames, filenames) in os.walk(path):
+			for (dirpath, dirnames, filenames) in os.walk(path + '\\'):
 				folder_structure['folders'].extend(dirnames)
 				folder_structure['files'].extend(filenames)
 				break
@@ -61,7 +61,7 @@ if __name__ == '__main__':
 			'tools.encode.encoding': 'utf-8'
 		}
     }
-	local_ip = get_lan_ip('192.168.1')
+	local_ip = get_lan_ip('192.168.82')
 	print(local_ip)
 	cherrypy.config.update({'server.socket_host': local_ip, 'server.socket_port': 80})
 	cherrypy.quickstart(remoteControlSever(), '/', conf)
