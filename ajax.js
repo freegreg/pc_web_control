@@ -30,17 +30,21 @@ class FolderStructureView {
 		//$('#fileviewer > table > tbody').append(this.viewCreateRow(i));
 		//$('#fileviewer > table > tbody').click(fileviewer_click);
 	}
-
+	bindClickHandler(selfClass, selfClassHandler) {
+		this.tbody.on("click", {
+			self: selfClass
+		}, selfClassHandler);
+	}
 	addRowView(index, name, level, isFolder, fullPath, isCollapsed) {
 		var row = $('<tr>');
-		var col = $('<td>').text(name).css("text-indent", (level * 20) + "px");
-		row.append(col);
+		var span = $('<span>');
+		if (isFolder)
+			span.addClass('oi oi-caret-right');
+		else
+			span.addClass('oi oi-file');
 
-		col = $('<td>').text(isFolder);
-		row.append(col);
-		col = $('<td>').text(fullPath);
-		row.append(col);
-		col = $('<td>').text(isCollapsed);
+		var col = $('<td>').append(span);
+		span.css("text-indent", (level * 20) + "px").text(' ' + name)
 		row.append(col);
 
 		if (index >= this.tbody.find('tr').length)
@@ -48,6 +52,18 @@ class FolderStructureView {
 		else
 			this.tbody.find('tr').eq(index - 1).after(row);
 
+	}
+
+	setRowCollapsed(index, collapse) {
+		var collClass;
+		var span = this.tbody.find('tr').eq(index).find('span');
+		if (collapse)
+			collClass = 'oi-caret-right';
+		else
+			collClass = 'oi-caret-bottom';
+		span.removeClass('oi-caret-right');
+		span.removeClass('oi-caret-bottom');
+		span.addClass(collClass);
 	}
 
 	removeRowView(index) {
@@ -108,16 +124,14 @@ class FolderStructureData {
 		for (var j = 0; j < content.files.length; j++) {
 			this.folder_structure.splice(index_row + content.folders.length + j + 1, 0, [content.files[j], false, level, full_path, true])
 		}
-		//console.log("this.folder_structure: " + this.folder_structure);
-		//this.fileviewer_insert(row_index, result.folders.length + result.files.length);
 	}
 	removeContent(index_row) {
 		this.folder_structure[index_row][4] = true;
 		var levelToRemove = this.getLevel(index_row);
 		var i = 0;
 		while ((++i + index_row < this.getLength()) && (this.getLevel(i + index_row) > levelToRemove));
-		this.folder_structure.splice(index_row + 1, i-1);
-		return i-1;
+		this.folder_structure.splice(index_row + 1, i - 1);
+		return i - 1;
 	}
 
 }
@@ -126,9 +140,7 @@ class FolderStructureController {
 	constructor(FolderStructureData_, FolderStructureView_) {
 		this.Data = FolderStructureData_;
 		this.View = FolderStructureView_;
-		this.View.tbody.on("click", {
-			self: this
-		}, this.ItemClick);
+		this.View.bindClickHandler(this, this.ItemClick);
 
 		//create initial root drives in table
 		for (var i = 0; i < this.Data.getLength(); i++) {
@@ -143,6 +155,7 @@ class FolderStructureController {
 		console.log("self.Data.getLength(): " + self.Data.getLength());
 		console.log("row_index: " + row_index);
 		console.log("self.Data.getName(row_index): " + self.Data.getName(row_index));
+
 		if (self.Data.isFolder(row_index) && self.Data.isCollapsed(row_index))
 			$.ajax({
 				url: "getPath?path=" + self.Data.getFullPath(row_index),
@@ -153,34 +166,23 @@ class FolderStructureController {
 					for (var i = row_index + 1; i <= (row_index + result.folders.length + result.files.length); i++) {
 						self.View.addRowView(i, self.Data.getName(i), self.Data.getLevel(i), self.Data.isFolder(i), self.Data.getFullPath(i), self.Data.isCollapsed(i));
 					}
+					self.View.setRowCollapsed(row_index, false);
 				}
 			});
-		if (self.Data.isFolder(row_index) && !self.Data.isCollapsed(row_index)) {
+		else if (self.Data.isFolder(row_index) && !self.Data.isCollapsed(row_index)) {
 			var lengthToDelete = self.Data.removeContent(row_index);
 			console.log("lengthToDelete: " + lengthToDelete);
-			self.View.removeRowsView(row_index + 1, lengthToDelete)
-		}
+			self.View.removeRowsView(row_index + 1, lengthToDelete);
+			self.View.setRowCollapsed(row_index, true);
+		} else if (!self.Data.isFolder(row_index))
+			$.ajax({
+				url: "openFile?path=" + self.Data.getFullPath(row_index),
+				success: function (result) {
+					console.log("result: " + result);
+				}
+			});
 
 	}
-}
-
-$.fn.fileViewer = function (FSView) {
-	var table = $('<table>').addClass('table table-hover');
-	var tbody = $('<tbody>');
-	tbody.click(fileviewer_click);
-	for (i = 0; i < FSView.getLength(); i++) {
-		var row = $('<tr>');
-		var col = $('<td>').text(FSView.getName(i)).css("text-indent", (FSView.getLevel(i) * 20) + "px");
-		row.append(col);
-		for (j = 1; j < 3; j++) {
-			var col = $('<td>').text('col ' + j);
-			row.append(col);
-		}
-		tbody.append(row);
-	}
-	table.append(tbody);
-	this.append(table);
-	return this;
 }
 
 $(document).ready(function () {

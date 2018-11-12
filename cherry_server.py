@@ -49,7 +49,16 @@ class remoteControlSever(object):
 		cherrypy.response.headers['Content-Type'] = 'application/json'
 		print(folder_structure)
 		return simplejson.dumps(folder_structure).encode('utf-8')
-	
+		
+	@cherrypy.expose
+	def openFile(self, path):
+		cherrypy.response.headers['Content-Type'] = 'application/text'
+		if (os.path.isfile(path)):
+			os.system("start " + path)
+			return 'OK'.encode('utf-8')
+		else:
+			return path + ': is not file.'.encode('utf-8')
+			
 if __name__ == '__main__':
 	conf = {
 		'/': {
