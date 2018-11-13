@@ -22,7 +22,7 @@ function onClickButtonShutdown(clicked_id) {
 
 class FolderStructureView {
 	constructor(tag) {
-		this.table = $('<table>').addClass('table table-hover');
+		this.table = $('<table>').addClass('table table-hover table-dark table-sm');
 		this.tbody = $('<tbody>');
 		this.table.append(this.tbody);
 		$(tag).append(this.table);

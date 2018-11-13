@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-import os, os.path
+import subprocess, os, os.path
 import random
 import string
 import simplejson
+import urllib
 
 from virtual_keyboard import *
 from get_lan_ip import *
@@ -53,11 +54,15 @@ class remoteControlSever(object):
 	@cherrypy.expose
 	def openFile(self, path):
 		cherrypy.response.headers['Content-Type'] = 'application/text'
+		path = urllib.parse.unquote(path)#.replace('\\', '\\\\')
 		if (os.path.isfile(path)):
-			os.system("start " + path)
+			print(path)
+			#os.system('"start "' + path + '""')
+			#retcode = subprocess.call("open " + path, shell=True)
+			os.startfile(path)
 			return 'OK'.encode('utf-8')
 		else:
-			return path + ': is not file.'.encode('utf-8')
+			return path.encode('utf-8') + ': is not file.'.encode('utf-8')
 			
 if __name__ == '__main__':
 	conf = {
