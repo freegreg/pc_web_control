@@ -1,24 +1,3 @@
-function onClickButton(clicked_id) {
-	var xhttp;
-	if (window.XMLHttpRequest) {
-		xhttp = new XMLHttpRequest();
-	} else {
-		// code for IE6, IE5
-		xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xhttp.onreadystatechange = function () {
-		if (this.readyState == 4 && this.status == 200) {}
-	};
-	xhttp.open("GET", clicked_id, true);
-	xhttp.send();
-}
-
-function onClickButtonShutdown(clicked_id) {
-	var r = confirm("Are you sure?");
-	if (r == true) {
-		onClickButton(clicked_id);
-	} else {}
-}
 
 class FolderStructureView {
 	constructor(tag) {
@@ -185,6 +164,25 @@ class FolderStructureController {
 	}
 }
 
+function onClickButtonShutdown(clicked_id) {
+	var r = confirm("Are you sure?");
+	if (r == true) {
+		onClickButton(clicked_id);
+	} else {}
+}
+
+function onClickButtonConfirm() {
+	if (this.id == "pcShutdown" || this.id == "pcReboot") {
+		if (confirm("Are you sure?") == false)
+			return;
+	}
+	$.ajax({
+		url: this.id,
+		success: function (content) {}
+	});
+}
+
+function onClickButton() {}
 $(document).ready(function () {
 	$.ajax({
 		url: "getPath?path=root",
@@ -195,4 +193,25 @@ $(document).ready(function () {
 			FSController = new FolderStructureController(FSData, FSView);
 		}
 	});
+	
+	function sendKey(id) {
+		$.ajax({
+			url: id,
+			success: function (content) {}
+		});
+	}
+
+	var timeVar;
+
+	$("#mainmenu button").on('vmousedown', function (e) {
+		sendKey(this.id);
+		timeVar = setInterval(sendKey, 250, this.id);
+	});
+	
+	
+	$("#mainmenu button").on('vmouseup vmouseleave', function (e) {
+		clearInterval(timeVar);
+	});
+
+	$("#confirm_buttons button").on("vclick", onClickButtonConfirm);
 });

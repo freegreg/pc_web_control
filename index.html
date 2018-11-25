@@ -16,12 +16,10 @@
 								<link href="css/custom.css" rel="stylesheet">
 									<link href="open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
 										<!-- Bootstrap core JavaScript -->
-										<script src="vendor/jquery/jquery.min.js">
-										</script>
-										<script src="vendor/bootstrap/js/bootstrap.bundle.min.js">
-										</script>
-										<script src="ajax.js">
-										</script>
+										<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+										<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+										<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+										<script src="ajax.js"></script>
 									</head>
 									<body>
 
@@ -53,38 +51,38 @@
 											</div>
 										</nav>
 										<!-- Page Content -->
-										<div class="container">
+										<div class="container" id="mainmenu">
 											<div class="container text-center">
 												<h5>Youtube</h5>
 												<div class="row justify-content-center">
 													<div class="btn-group">
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_LEFT">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_LEFT">
 															<span class="oi oi-arrow-left"/>
 														</button>
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_SPACE">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_SPACE">
 															<span class="oi oi-media-pause"/>
 														</button>
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_RIGHT">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_RIGHT">
 															<span class="oi oi-arrow-right"/>
 														</button>
 													</div>
 												</div>
 												<div class="row justify-content-center">
 													<div class="btn-group">
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_P">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_SHIFT&button=VK_P">
 															<span class="oi oi-media-skip-backward"/>
 														</button>
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_N">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_SHIFT&button=VK_N">
 															<span class="oi oi-media-skip-forward"/>
 														</button>
 													</div>
 												</div>
 												<div class="row justify-content-center">
 													<div class="btn-group">
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_F">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_SHIFT&button=VK_F">
 															<span class="oi oi-fullscreen-enter"/>
 														</button>
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_SHIFT&button=VK_C">CC</button>
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_SHIFT&button=VK_C">CC</button>
 													</div>
 												</div>
 											</div>
@@ -92,42 +90,40 @@
 												<h5>Media Keys</h5>
 												<div class="row justify-content-center">
 													<div class="btn-group">
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_VOLUME_UP">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_VOLUME_UP">
 															<span class="oi oi-volume-high"/>
 														</button>
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_VOLUME_MUTE">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_VOLUME_MUTE">
 															<span class="oi oi-volume-off"/>
 														</button>
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_VOLUME_DOWN">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_VOLUME_DOWN">
 															<span class="oi oi-volume-low"/>
 														</button>
 													</div>
 												</div>
 												<div class="row justify-content-center">
 													<div class="btn-group">
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_MEDIA_PREV_TRACK">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_MEDIA_PREV_TRACK">
 															<span class="oi oi-media-step-backward"/>
 														</button>
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_MEDIA_PLAY_PAUSE">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_MEDIA_PLAY_PAUSE">
 															<span class="oi oi-play-circle"/>
 														</button>
-														<button class="btn btn-lg btn-dark remote_button" onclick="onClickButton(this.id)" id="pressKey?button=VK_MEDIA_NEXT_TRACK">
+														<button class="btn btn-lg btn-dark remote_button" id="pressKey?button=VK_MEDIA_NEXT_TRACK">
 															<span class="oi oi-media-step-forward"/>
 														</button>
 													</div>
 												</div>
-												<div class="row">
-													<div class="container text-center">
-														<h5>PC Control</h5>
-														<div class="btn-group">
-															<button class="btn btn-lg btn-dark remote_button" onclick="onClickButtonShutdown(this.id)" id="pcShutdown">
-																<span class="oi oi-power-standby"/>
-															</button>
-															<button class="btn btn-lg btn-dark remote_button" onclick="onClickButtonShutdown(this.id)" id="pcReboot">
-																<span class="oi oi-reload"/>
-															</button>
-														</div>
-													</div>
+											</div>
+											<div class="container text-center" id="confirm_buttons">
+												<h5>PC Control</h5>
+												<div class="btn-group">
+													<button class="btn btn-lg btn-dark remote_button" id="pcShutdown">
+														<span class="oi oi-power-standby"/>
+													</button>
+													<button class="btn btn-lg btn-dark remote_button" id="pcReboot">
+														<span class="oi oi-reload"/>
+													</button>
 												</div>
 											</div>
 										</div>
