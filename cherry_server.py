@@ -24,7 +24,7 @@ class remoteControlSever(object):
 		keys = params['button']
 		if not isinstance(keys, list):
 			keys = [keys]
-		KeysPress(keys)
+		KeyboardClickMultiple(keys)
 		
 	@cherrypy.expose
 	def pcShutdown(self):
@@ -34,7 +34,7 @@ class remoteControlSever(object):
 	@cherrypy.expose
 	def pcReboot(self):
 		print('key pressed: reboot\n')
-		os.system('shutdown -t 0 -r -f')#system("shutdown -t 0 -r -f")
+		os.system('shutdown -t 0 -r -f')
 		
 	@cherrypy.expose
 	def getPath(self, path):

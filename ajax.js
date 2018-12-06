@@ -164,25 +164,17 @@ class FolderStructureController {
 	}
 }
 
-function onClickButtonShutdown(clicked_id) {
-	var r = confirm("Are you sure?");
-	if (r == true) {
-		onClickButton(clicked_id);
-	} else {}
-}
-
 function onClickButtonConfirm() {
 	if (this.id == "pcShutdown" || this.id == "pcReboot") {
-		if (confirm("Are you sure?") == false)
-			return;
+		if (confirm("Are you sure?"))
+			$.ajax({
+				url: this.id,
+				success: function (content) {}
+			});
 	}
-	$.ajax({
-		url: this.id,
-		success: function (content) {}
-	});
+
 }
 
-function onClickButton() {}
 $(document).ready(function () {
 	$.ajax({
 		url: "getPath?path=root",
@@ -193,24 +185,27 @@ $(document).ready(function () {
 			FSController = new FolderStructureController(FSData, FSView);
 		}
 	});
-	
+
 	function sendKey(id) {
 		$.ajax({
-			url: id,
+			url: 'pressKey?' + id,
 			success: function (content) {}
 		});
 	}
-
-	var timeVar;
+	
+	var intervalVar;
+	var timeoutVar;
 
 	$("#mainmenu button").on('vmousedown', function (e) {
-		sendKey(this.id);
-		timeVar = setInterval(sendKey, 250, this.id);
+		params = this.id;
+		sendKey(params);
+		timeoutVar = setTimeout(function(){ intervalVar = setInterval(sendKey, 250, params); }, 1500);
+		
 	});
-	
-	
+
 	$("#mainmenu button").on('vmouseup vmouseleave', function (e) {
-		clearInterval(timeVar);
+		clearTimeout(timeoutVar);
+		clearInterval(intervalVar);
 	});
 
 	$("#confirm_buttons button").on("vclick", onClickButtonConfirm);

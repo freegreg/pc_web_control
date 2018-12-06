@@ -97,58 +97,47 @@ user32.SendInput.argtypes = (wintypes.UINT, # nInputs
                              ctypes.c_int)  # cbSize
 
 # Functions
+def KeyboardPress(key):
+	if key in vk_keys:
+		hexKeyCode = vk_keys[key]
+		x = INPUT(type=INPUT_KEYBOARD, ki=KEYBDINPUT(wVk=hexKeyCode))
+		user32.SendInput(1, ctypes.byref(x), ctypes.sizeof(x))
 
-def PressKey(hexKeyCode):
-    x = INPUT(type=INPUT_KEYBOARD,
-              ki=KEYBDINPUT(wVk=hexKeyCode))
-    user32.SendInput(1, ctypes.byref(x), ctypes.sizeof(x))
+def KeyboardRelease(key):
+	if key in vk_keys:
+		hexKeyCode = vk_keys[key]
+		x = INPUT(type=INPUT_KEYBOARD, ki=KEYBDINPUT(wVk=hexKeyCode, dwFlags=KEYEVENTF_KEYUP))
+		user32.SendInput(1, ctypes.byref(x), ctypes.sizeof(x))
+		
+def KeyboardPressMultiple(keys):
+	for key in keys:
+		KeyboardPress(key)
 
-def ReleaseKey(hexKeyCode):
-    x = INPUT(type=INPUT_KEYBOARD,
-              ki=KEYBDINPUT(wVk=hexKeyCode,
-                            dwFlags=KEYEVENTF_KEYUP))
-    user32.SendInput(1, ctypes.byref(x), ctypes.sizeof(x))
+def KeyboardReleaseMultiple(keys):
+	for key in keys:
+		KeyboardRelease(key)
 
-def AltTab():
-    """Press Alt+Tab and hold Alt key for 2 seconds
-    in order to see the overlay.
-    """
-    PressKey(VK_MENU)   # Alt
-    PressKey(VK_TAB)    # Tab
-    ReleaseKey(VK_TAB)  # Tab~
-    time.sleep(2)
-    ReleaseKey(VK_MENU) # Alt~
-
-def VolumeUp():
-	PressKey(vk_keys['VK_VOLUME_UP'])   # Alt
-	ReleaseKey(vk_keys['VK_VOLUME_UP']) # Alt~
+def KeyboardVolumeUp():
+	KeyboardClick('VK_VOLUME_UP')
 	
-def VolumeDown():
-	PressKey(vk_keys['VK_VOLUME_DOWN'])   # Alt
-	ReleaseKey(vk_keys['VK_VOLUME_DOWN']) # Alt~
+	
+def KeyboardVolumeDown():
+	KeyboardClick('VK_VOLUME_DOWN')
 
-
-def charKeyPress(char):
+	
+def KeyboardCharKeyPress(char):
 	key = char.upper()
 	if len(key) == 1 and ((ord(key) >= 0x30 and ord(key) <= 0x39) or (ord(key) >= 0x41 and ord(key) <= 0x5A)):
 		PressKey(key)   # Alt
 		ReleaseKey(key) # Alt~
 
-def KeyPressWith(ctrl_key, char_key):
-	PressKey(vk_keys[ctrl_key])
-	PressKey(char_key)
-	ReleaseKey(char_key)
-	ReleaseKey(vk_keys[ctrl_key])
-
-def KeysPress(keys):
+def KeyboardClickMultiple(keys):
 	for key in keys:
-		if key in vk_keys:
-			PressKey(vk_keys[key])   # Alt
+		KeyboardPress(key)   # Alt
 	for key in keys:
-		if key in vk_keys:
-			ReleaseKey(vk_keys[key]) # Alt~
+		KeyboardRelease(key) # Alt~
 	
-def KeyPress(key):
-	PressKey(vk_keys[key])   # Alt
-	ReleaseKey(vk_keys[key]) # Alt~
+def KeyboardClick(key):
+	KeyboardPress(key)   # Alt
+	KeyboardRelease(key) # Alt~
 	
